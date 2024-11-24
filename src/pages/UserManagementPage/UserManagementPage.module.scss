@@ -1,16 +1,27 @@
-.userManagementPage {
-  height: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 40px;
-  .userManagementSection {
-    background-color: rgba(255, 255, 255, 1);
+.main {
+  .userManagementPageHeader {
+    background-color: #001628;
     width: 100%;
-    padding: 25px;
+    color: #ffffff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 30px;
+  }
+  .userManagementPage {
+    height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
+    padding: 40px;
+    .userManagementSection {
+      background-color: rgba(255, 255, 255, 1);
+      width: 100%;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
   }
 }

@@ -79,6 +79,7 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.status = "succeeded";
+        localStorage.clear();
         state.user = null;
       })
       .addCase(logoutUser.rejected, (state, action) => {
