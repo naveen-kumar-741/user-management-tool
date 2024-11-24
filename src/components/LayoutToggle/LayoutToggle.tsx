@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { Radio, RadioChangeEvent } from "antd";
 import { TableOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { LayoutToggleProps } from "../../interfaces/interfaces";
+import { useAppDispatch } from "../../app/hooks";
+import { setLimit, setPage } from "../../slices/usersSlice";
 import styles from "./LayoutToggle.module.scss";
 
-type TabPosition = "table" | "card";
-
-const LayoutToggle: React.FC = () => {
-  const [mode, setMode] = useState<TabPosition>("table");
-
+const LayoutToggle: React.FC<LayoutToggleProps> = ({ mode, setMode }) => {
+  const dispatch = useAppDispatch();
   const handleModeChange = (e: RadioChangeEvent) => {
     setMode(e.target.value);
+    if (e.target.value === "card") {
+      dispatch(setLimit(6));
+      dispatch(setPage(1));
+    } else {
+      dispatch(setPage(1));
+      dispatch(setLimit(5));
+    }
   };
 
   return (

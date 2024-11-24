@@ -4,7 +4,7 @@ import { Button } from "antd";
 import CreateOrUpdateUser from "../CreateOrUpdateUser/CreateOrUpdateUser";
 import debounce from "lodash.debounce";
 import { useAppDispatch } from "../../app/hooks";
-import { setSearchKey } from "../../slices/usersSlice";
+import { setPage, setSearchKey } from "../../slices/usersSlice";
 import styles from "./UserManagementHeader.module.scss";
 
 const UserManagementHeader: React.FC = () => {
@@ -13,6 +13,7 @@ const UserManagementHeader: React.FC = () => {
 
   const onSearch = debounce((searchKey: string) => {
     dispatch(setSearchKey(searchKey.trim()));
+    dispatch(setPage(1));
   }, 300);
 
   return (

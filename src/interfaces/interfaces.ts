@@ -41,3 +41,16 @@ export interface CreateOrUpdateUserProps {
   setShow: (state: boolean) => void;
   userData?: UserDataType;
 }
+
+export interface ConfirmationPopUpProps {
+  show: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  loading?: boolean;
+}
+
+export type TabPosition = "table" | "card";
+export interface LayoutToggleProps {
+  mode: TabPosition;
+  setMode: (state: TabPosition) => void;
+}

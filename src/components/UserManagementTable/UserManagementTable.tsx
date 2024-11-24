@@ -2,8 +2,10 @@ import React, { useMemo, useState } from "react";
 import { Button, Image, Space, Table, TableProps } from "antd";
 import { UserDataType } from "../../interfaces/interfaces";
 import { users } from "../../slices/usersSlice";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import CreateOrUpdateUser from "../CreateOrUpdateUser/CreateOrUpdateUser";
+import ConfirmationPopUp from "../ConfirmationPopUp/ConfirmationPopUp";
+import { deleteUserThunk } from "../../slices/thunks";
 
 const UserManagementTable: React.FC = () => {
   const columnsTemplate: TableProps<UserDataType>["columns"] = [
@@ -76,7 +78,10 @@ const UserManagementTable: React.FC = () => {
     },
   ];
   const { usersList, status } = useAppSelector(users);
+  const dispatch = useAppDispatch();
   const [show, setShow] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserDataType>();
 
   const handleEdit = (id: number) => {
@@ -84,7 +89,23 @@ const UserManagementTable: React.FC = () => {
     setUserData(usersList.find((user) => user.id === id));
   };
 
-  const handleDelete = (id: number) => {};
+  const handleDelete = (id: number) => {
+    setShowConfirm(true);
+    setUserData(usersList.find((user) => user.id === id));
+  };
+
+  const onConfirmDelete = async () => {
+    setLoading(true);
+    if (userData?.id) {
+      await dispatch(deleteUserThunk(userData?.id));
+    }
+    onClose();
+  };
+
+  const onClose = () => {
+    setShowConfirm(false);
+    setLoading(false);
+  };
 
   const dataSource = useMemo(
     () =>
@@ -105,6 +126,12 @@ const UserManagementTable: React.FC = () => {
         pagination={false}
       />
       <CreateOrUpdateUser show={show} setShow={setShow} userData={userData} />
+      <ConfirmationPopUp
+        show={showConfirm}
+        onClose={onClose}
+        onConfirm={onConfirmDelete}
+        loading={loading}
+      />
     </React.Fragment>
   );
 };
