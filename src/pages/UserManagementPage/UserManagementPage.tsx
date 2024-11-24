@@ -5,16 +5,20 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setPage, users } from "../../slices/usersSlice";
 import UserManagementTable from "../../components/UserManagementTable/UserManagementTable";
 import { Pagination } from "antd";
-import { fetchUsers } from "../../slices/thunks";
+import { fetchUsers, searchUser } from "../../slices/thunks";
 import styles from "./UserManagementPage.module.scss";
 
 const UserManagementPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { total_pages, page, limit } = useAppSelector(users);
+  const { total_pages, page, limit, searchKey } = useAppSelector(users);
 
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch, page, limit]);
+    if (searchKey.length > 0) {
+      dispatch(searchUser());
+    } else {
+      dispatch(fetchUsers());
+    }
+  }, [dispatch, page, limit, searchKey]);
 
   const onPagination = (value: number) => {
     dispatch(setPage(value));

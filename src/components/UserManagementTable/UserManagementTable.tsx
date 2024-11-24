@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, Image, Space, Table, TableProps } from "antd";
 import { UserDataType } from "../../interfaces/interfaces";
 import { users } from "../../slices/usersSlice";
@@ -86,12 +86,21 @@ const UserManagementTable: React.FC = () => {
 
   const handleDelete = (id: number) => {};
 
+  const dataSource = useMemo(
+    () =>
+      usersList.map((user) => ({
+        ...user,
+        key: user.id,
+      })),
+    [usersList]
+  );
+
   return (
     <React.Fragment>
       <Table<UserDataType>
         style={{ overflow: "auto" }}
         columns={columnsTemplate}
-        dataSource={usersList ?? []}
+        dataSource={dataSource ?? []}
         loading={status === "loading"}
         pagination={false}
       />

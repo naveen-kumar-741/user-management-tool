@@ -5,6 +5,7 @@ import {
   createUserThunk,
   deleteUserThunk,
   fetchUsers,
+  searchUser,
   updateUserThunk,
 } from "./thunks";
 
@@ -12,7 +13,9 @@ const initialState: UsersState = {
   usersList: [],
   page: 1,
   limit: 5,
+  searchKey: "",
   total_pages: 1,
+  total: 0,
   status: "idle",
   error: null,
 };
@@ -27,6 +30,9 @@ const userSlice = createSlice({
     setLimit(state, action: PayloadAction<number>) {
       state.limit = action.payload;
     },
+    setSearchKey(state, action: PayloadAction<string>) {
+      state.searchKey = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -39,9 +45,27 @@ const userSlice = createSlice({
           state.status = "succeeded";
           state.usersList = action.payload.data;
           state.total_pages = action.payload.total_pages;
+          state.total = action.payload.total;
         }
       )
       .addCase(fetchUsers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Something went wrong";
+      });
+
+    builder
+      .addCase(searchUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(
+        searchUser.fulfilled,
+        (state, action: PayloadAction<FetchUserResponse>) => {
+          state.status = "succeeded";
+          state.usersList = action.payload.data;
+          state.total_pages = action.payload.total_pages;
+        }
+      )
+      .addCase(searchUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || "Something went wrong";
       });
@@ -101,6 +125,6 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { setPage, setLimit } = userSlice.actions;
+export const { setPage, setLimit, setSearchKey } = userSlice.actions;
 
 export const users = (state: RootState) => state.users;

@@ -9,8 +9,10 @@ export interface UsersState {
   usersList: UserDataType[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
+  searchKey: string;
   page: number;
   limit: number;
+  total: number;
   total_pages: number;
 }
 

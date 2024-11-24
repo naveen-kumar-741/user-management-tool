@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import styles from "./UserManagementHeader.module.scss";
 import Search from "antd/es/input/Search";
 import { Button } from "antd";
 import CreateOrUpdateUser from "../CreateOrUpdateUser/CreateOrUpdateUser";
+import debounce from "lodash.debounce";
+import { useAppDispatch } from "../../app/hooks";
+import { setSearchKey } from "../../slices/usersSlice";
+import styles from "./UserManagementHeader.module.scss";
 
 const UserManagementHeader: React.FC = () => {
   const [show, setShow] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
-  const onSearch = (searchKey: string) => {
-    console.log("searchKey", searchKey);
-  };
-
-  const onClear = () => {};
+  const onSearch = debounce((searchKey: string) => {
+    dispatch(setSearchKey(searchKey.trim()));
+  }, 300);
 
   return (
     <header className={styles.sectionHeader}>
@@ -20,7 +22,7 @@ const UserManagementHeader: React.FC = () => {
         placeholder="Search Here..."
         allowClear
         onSearch={onSearch}
-        onClear={onClear}
+        onChange={(e) => onSearch(e.target.value)}
         className={styles.searchInput}
       />
       <Button

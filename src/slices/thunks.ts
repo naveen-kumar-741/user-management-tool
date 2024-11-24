@@ -21,6 +21,41 @@ export const fetchUsers = createAsyncThunk<
   }
 });
 
+export const searchUser = createAsyncThunk<
+  FetchUserResponse,
+  void,
+  { rejectValue: string; state: RootState }
+>("users/searchUsers", async (_, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const { page, limit, searchKey, total } = state.users;
+
+  try {
+    const response = await axios.get(`https://reqres.in/api/users`, {
+      params: { page: 1, per_page: total },
+    });
+
+    const users: UserDataType[] = response.data?.data;
+
+    // Filter users based on search query
+    const filteredUsers = users.filter((user) =>
+      `${user.first_name} ${user.last_name}`
+        .toLowerCase()
+        .includes(searchKey.toLowerCase())
+    );
+
+    // Paginate the filtered users
+    const startIndex = (page - 1) * limit;
+    const paginatedUsers = filteredUsers.slice(startIndex, startIndex + limit);
+
+    // Total pages
+    const totalPages = Math.ceil(filteredUsers.length / limit);
+
+    return { ...response.data, total_pages: totalPages, data: paginatedUsers };
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Failed to fetch users");
+  }
+});
+
 export const deleteUserThunk = createAsyncThunk<
   number,
   number,

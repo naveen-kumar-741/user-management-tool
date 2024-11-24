@@ -28,22 +28,17 @@ const CreateOrUpdateUser: React.FC<CreateOrUpdateUserProps> = ({
       const status = await dispatch(
         updateUserThunk({ userId: userData.id, updatedData: value })
       );
-      console.log("status", status);
-
       if (status.type === "users/updateUser/fulfilled") {
         setLoading(false);
         setShow(false);
       }
     } else {
       const status = await dispatch(createUserThunk({ userData: value }));
-      console.log("status", status);
-
       if (status.type === "users/createUser/fulfilled") {
         setLoading(false);
         setShow(false);
       }
     }
-    console.log("value", value);
   };
 
   useEffect(() => {
