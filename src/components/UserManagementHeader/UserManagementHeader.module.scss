@@ -1,0 +1,29 @@
+.sectionHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  .sectionTitle {
+    flex: 1;
+  }
+  .searchInput {
+    width: 200px;
+  }
+  .createBtnMob {
+    display: none;
+  }
+  .createBtn {
+    border-radius: 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sectionHeader {
+    .createBtnMob {
+      display: block;
+    }
+    .createBtn {
+      display: none;
+    }
+  }
+}

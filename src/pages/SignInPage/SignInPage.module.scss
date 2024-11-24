@@ -1,0 +1,48 @@
+.signInPage {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  .signInForm {
+    width: 45%;
+    max-width: 430px;
+    margin: auto 0;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-weight: 600;
+    .submitBtn {
+      width: 100%;
+      border-radius: 4px;
+    }
+    .formError {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.5714285714285714;
+      color: #ff4d4f;
+      text-align: center;
+      margin-bottom: 10px;
+      text-transform: capitalize;
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .signInPage {
+    .signInForm {
+      width: 75%;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .signInPage {
+    .signInForm {
+      width: 85%;
+    }
+  }
+}
