@@ -6,11 +6,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 30px;
+    padding: 25px;
   }
   .userManagementPage {
     height: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 82px);
     display: flex;
     flex-direction: column;
     gap: 15px;
